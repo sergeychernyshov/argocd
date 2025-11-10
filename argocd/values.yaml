@@ -1,0 +1,14 @@
+global:
+  image:
+    tag: v2.13.3  # пример версии Argo CD
+  domain: argocd.example.com
+ 
+server:
+  service:
+    type: LoadBalancer
+ 
+configs:
+  params:
+    server.insecure: true
+  secret:
+    argocdServerAdminPassword: "$2a$12$exampleBcryptHash"  # можно хранить в ExternalSecret

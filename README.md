@@ -1,1 +1,1 @@
-# agrocd
+# argocd

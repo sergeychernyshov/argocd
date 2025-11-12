@@ -1,20 +1,44 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: sample-app
-  namespace: argocd
+  name: hello-nginx
+  labels:
+    app: hello-nginx
 spec:
-  destination:
-    namespace: sample-app
-    server: https://kubernetes.default.svc
-  project: sample-project
-  source:
-    path: sample-app/
-    repoURL: https://github.com/kurtburak/argocd.git
-    targetRevision: HEAD
-  syncPolicy:
-    syncOptions:
-    - CreateNamespace=true
-    automated:
-      selfHeal: true
-      prune: true
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-nginx
+  template:
+    metadata:
+      labels:
+        app: hello-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable-alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html
+          configMap:
+            name: hello-nginx-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hello-nginx-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Hello</title>
+      </head>
+      <body>
+        <h1>hello</h1>
+      </body>
+    </html>

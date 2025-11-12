@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-nginx
+  namespace: test
   labels:
     app: hello-nginx
 spec:
@@ -31,6 +32,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: hello-nginx-html
+  namespace: test
 data:
   index.html: |
     <!DOCTYPE html>
@@ -48,6 +50,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hello-nginx
+  namespace: test
 spec:
   selector:
     app: hello-nginx

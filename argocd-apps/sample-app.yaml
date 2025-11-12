@@ -42,3 +42,18 @@ data:
         <h1>hello</h1>
       </body>
     </html>
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-nginx
+spec:
+  selector:
+    app: hello-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
